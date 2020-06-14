@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'StarterWebapge'`, () => {
+  it(`should have as title 'StarterWebpage'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('StarterWebapge');
+    expect(app.title).toEqual('StarterWebpage');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('StarterWebapge app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('StarterWebpage app is running!');
   });
 });
