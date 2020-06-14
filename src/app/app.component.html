@@ -1,3 +1,15 @@
-<p>Landing Page!</p>
-<button routerLink="/gumby">gumby trampoline</button>
-<router-outlet></router-outlet>
+<nav #navbar class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" routerLink="/">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/gumby">Gumby Trampoline</a>
+        </li>
+      </ul>
+    </div>
+</nav>
+<router-outlet (activate)="onActivate($event)"></router-outlet> <!-- the event handler is so that child components can recvieve the navbar height value and potentially other data-->

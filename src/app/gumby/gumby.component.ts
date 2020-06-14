@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
+import { Component, OnInit, ViewChild, ElementRef, HostListener, OnDestroy, Input } from '@angular/core';
+import { Observable, Observer, Subscription } from 'rxjs';
 import { PlayerInterface } from './player';
 import { CharlesHeadInterface } from './charlesHead';
 
@@ -9,22 +9,24 @@ import { CharlesHeadInterface } from './charlesHead';
   styleUrls: ['./gumby.component.css']
 })
 
-export class GumbyComponent implements OnInit {
-
-
-
+export class GumbyComponent implements OnInit, OnDestroy {
   @ViewChild('canvas', { static: true })
   canvas: ElementRef<HTMLCanvasElement>;
+  
+  @Input() navbarHeight: number = 60;
 
   ctx: CanvasRenderingContext2D;
 
   gameTimer: ReturnType<typeof setInterval>;
   charlesTimer: ReturnType<typeof setInterval>;
 
+  gumbyObservable: Subscription;
+  charlesObservable: Subscription;
+
+
   charlesImg: CanvasImageSource;
   charlesW: number = 85;
   charlesH: number = 85;
-
 
   gumbyImg: CanvasImageSource = new Image();
   gumbyW: number = 100;
@@ -34,8 +36,6 @@ export class GumbyComponent implements OnInit {
 
   player1: Player;
 
-
-
   kill_count: number = 0;
   death_count: number = 0;
   missed_count: number = 0;
@@ -44,13 +44,43 @@ export class GumbyComponent implements OnInit {
 
   constructor() {}
 
+  ngOnInit(): void {
+    this.ctx = this.canvas.nativeElement.getContext('2d');
+    this.canvas.nativeElement.width = window.innerWidth;
+    this.canvas.nativeElement.height = window.innerHeight - this.navbarHeight; // navbar height from app-component.css
+    this.player1 = new Player(this.ctx, this.canvas, this.gumbyH, this.gumbyW / 2, this.DT);
+
+    this.gumbyObservable = this.loadImage('../assets/img/gumby.jpg').subscribe(img => {
+      this.player1.gumbyImg = img;
+    });
+    this.charlesObservable = this.loadImage('../assets/img/charles-head.jpg').subscribe(img => {
+      this.charlesImg = img;
+      this.charles_buffer = [];
+    });
+   
+    //run the game
+    this.animate(); 
+  }
+
+  ngOnDestroy(): void {
+    //remove lingering observable subscriptions
+    this.gumbyObservable.unsubscribe();
+    this.charlesObservable.unsubscribe();
+
+    //clear interval timers
+    clearInterval(this.gameTimer);
+    clearInterval(this.charlesTimer);
+  }
+
   @HostListener('window:keydown', ['$event'])
   keyDownHandler(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
         this.player1.rightPressed = true;
+        this.player1.imgIsFlipped = true;
     }
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         this.player1.leftPressed = true;
+        this.player1.imgIsFlipped = false;
     }
     else if(e.key == " ") {
         this.player1.spacePressed = true;
@@ -69,27 +99,8 @@ export class GumbyComponent implements OnInit {
           this.player1.spacePressed = false;
       }
   }
-
-  ngOnInit(): void {
-    this.ctx = this.canvas.nativeElement.getContext('2d');
-    this.canvas.nativeElement.width = window.innerWidth;
-    this.canvas.nativeElement.height = window.innerHeight;
-    this.player1 = new Player(this.ctx, this.canvas, this.gumbyH, this.gumbyW / 2, this.DT);
-
-    this.loadImage('../assets/img/gumby.jpg').subscribe(img => {
-      this.player1.gumbyImg = img;
-    });
-    this.loadImage('../assets/img/charles-head.jpg').subscribe(img => {
-      this.charlesImg = img;
-      this.charles_buffer = [];
-    });
-   
-    
-    //run the game
-    this.animate(); 
-  }
   
-  loadImage(url: string) {
+  loadImage(url: string): Observable<CanvasImageSource> {
     return Observable.create((observer: Observer<CanvasImageSource>) => {
       // create an image object
       let img = new Image();
@@ -109,7 +120,7 @@ export class GumbyComponent implements OnInit {
           observer.complete();
       }
     });
- }
+  }
 
   animate() {
     setInterval(() => {this.draw()}, this.DT);
@@ -136,7 +147,7 @@ export class GumbyComponent implements OnInit {
     //Render Game title
     this.ctx.beginPath();
     this.ctx.font = "30px Comic Sans MS";
-    this.ctx.fillStyle = "red";
+    this.ctx.fillStyle = "black";
     this.ctx.textAlign = "center";
     this.ctx.fillText("GUMBY TRAMPOLINE", this.ctx.canvas.width / 2, this.ctx.canvas.width / 4);
     this.ctx.closePath();
@@ -166,11 +177,6 @@ export class GumbyComponent implements OnInit {
       //draw remaining charles-heads
       this.charles_buffer[i].draw();
     }
-    
-    
-    
-    
-     
   }
   
   spawnCharlesRandomly() {
@@ -201,13 +207,12 @@ export class GumbyComponent implements OnInit {
       this.player1.can_double_jump = false;
     }
   }
-
-
 }
 
-export class Player implements PlayerInterface{
+class Player implements PlayerInterface{
   ctx: CanvasRenderingContext2D;
   gumbyImg: CanvasImageSource = new Image();
+  imgIsFlipped: boolean = false;
 
   rightPressed: boolean = false;
   leftPressed: boolean = false;
@@ -249,8 +254,15 @@ export class Player implements PlayerInterface{
   }
 
 	drawPlayer() {
-	  this.ctx.beginPath();
-		this.ctx.drawImage(this.gumbyImg, this.x - this.width / 4, this.y, this.width * 2, this.height);
+    this.ctx.beginPath();
+    this.ctx.save(); // Save the current state
+    if (this.imgIsFlipped) {
+      this.ctx.translate((this.x - this.width / 4) + ( this.width * 2 ) / 2, this.y + ( this.width * 2 ) / 2);
+      this.ctx.scale(-1, 1);
+      this.ctx.translate(-((this.x - this.width / 4) + ( this.width * 2 ) / 2), -(this.y + ( this.width * 2 ) / 2));
+    }
+    this.ctx.drawImage(this.gumbyImg, this.x - this.width / 4, this.y, this.width * 2, this.height);
+    this.ctx.restore(); // Restore the last saved state
 	  this.ctx.closePath();
 	}
 
@@ -288,7 +300,7 @@ export class Player implements PlayerInterface{
 		}
 
 		this.vx = this.vx + 0.001*this.DT*this.ax;
-		this.vy = this.vy + 0.001*this.DT*this.ay; //integrate!!
+    this.vy = this.vy + 0.001*this.DT*this.ay; //integrate!!
 
 		this.x = this.x + 0.001*this.DT*this.vx;
     this.y = this.y + 0.001*this.DT*this.vy;
@@ -314,13 +326,10 @@ export class Player implements PlayerInterface{
       this.vy = 0;
       this.y = BOTTOM_LIMIT;
     }
-
-
 	}
-
 }
 
-export class CharlesHead implements CharlesHeadInterface{
+class CharlesHead implements CharlesHeadInterface{
   ctx: CanvasRenderingContext2D;
   charlesImg: CanvasImageSource = new Image();
 
