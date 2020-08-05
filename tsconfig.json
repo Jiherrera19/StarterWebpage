@@ -5,6 +5,7 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
+    "jsx": "react",
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "module": "esnext",
