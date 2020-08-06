@@ -5,8 +5,9 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   { path: 'gumby', loadChildren: () => import('./gumby/gumby.module').then(m => m.GumbyModule) },
   { path: 'landing-page', loadChildren: () => import('./landing-page/landing-page.module').then(m => m.LandingPageModule) },
-  { path: '', redirectTo: 'landing-page', pathMatch: 'full' }
-  
+  { path: '', redirectTo: 'landing-page', pathMatch: 'full' },
+  { path: 'meme-generator', loadChildren: () => import('./meme-generator/meme-generator.module').then(m => m.MemeGeneratorModule) }
+
 ];
 
 @NgModule({
