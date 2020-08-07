@@ -1,0 +1,17 @@
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div class="main-container">
+    <div class="col1 element">
+        <app-subject-list [dataSource]="courses"></app-subject-list>
+    </div>
+    <div class="col2">
+        <div class="element">
+        <app-group-stats *ngIf="courses && mainGroups" [courses]="courses" [mainGroups]="mainGroups" ></app-group-stats>
+
+        </div>
+        <div class="element">
+        <app-constraint-stats *ngIf="courses && constraintGroups" [constraintGroups]="constraintGroups"></app-constraint-stats>
+        </div>
+    </div>
+</div>

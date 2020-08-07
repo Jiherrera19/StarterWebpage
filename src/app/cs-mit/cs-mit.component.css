@@ -1,0 +1,22 @@
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    background-color: skyblue;
+}
+
+.element {
+    padding: 1px;
+}
+
+.col1 {
+    flex: 1 0 50%;
+    padding: 1px;
+}
+
+.col2 {
+    flex: 1 0 50%;
+    padding: 1px;
+}
