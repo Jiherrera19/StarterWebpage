@@ -1,0 +1,58 @@
+<mat-card class="example-card">
+    <mat-card-header style="justify-content: center;">
+      <mat-card-title>{{ course.number }} {{ course.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h3 class="text-header">Description</h3>
+      <p>
+        {{ course.description }}
+      </p>
+      <h3 class="text-header">Constraints Satisfied</h3>
+      <p>
+        {{ course.groups }}
+      </p>
+      <h3 class="text-header">Prerequisites</h3>
+      <p>
+        {{ course.prereqs }}
+      </p>
+      <h3 class="text-header">Lecturers</h3>
+      <p>
+        {{ course.lecturers }}
+      </p>
+      <h3 class="text-header">Units</h3>
+      <p>
+        {{ course.units }}
+      </p>
+      <h3 class="text-header">Participation</h3>
+
+        <mat-accordion *ngIf="course.participation">
+          <div *ngFor="let key of objKeys(course.participation)">
+            <mat-expansion-panel hideToggle *ngIf="course.participation[key][0]">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{
+                    key
+                  }}
+                </mat-panel-title>
+                <mat-panel-description>
+                  All Students: {{ course.participation[key][0]}}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+                <h3>Freshmen: {{ course.participation[key][1]}}</h3>
+                <h3>Sophomores: {{ course.participation[key][2]}}</h3>
+                <h3>Juniors: {{ course.participation[key][3]}}</h3>
+                <h3>Seniors: {{ course.participation[key][4]}}</h3>
+            </mat-expansion-panel>
+          </div>
+        </mat-accordion>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <a href="{{ course.ocw }}" target="_blank">
+        <button mat-button>OCW</button>
+      </a>
+      <a href="{{ course.registrar }}" target="_blank">
+        <button mat-button *ngIf="course.registrar">Registrar</button>
+      </a>
+    </mat-card-actions>
+  </mat-card>

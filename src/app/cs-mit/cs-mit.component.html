@@ -1,17 +1,27 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<mat-drawer-container autosize>
+    <mat-drawer #drawer class="sidenav" mode="side" opened>
+      <p>Sidenav</p>
+    </mat-drawer>
 
-<div class="main-container">
-    <div class="col1 element">
-        <app-subject-list [dataSource]="courses"></app-subject-list>
+    <div class="main-container">
+        <div class="col1">
+            <div class="element">
+                <app-group-stats *ngIf="courses && mainGroups" [courses]="courses" [mainGroups]="mainGroups" ></app-group-stats>
+            </div>
+            <div class="element">
+                <app-subject-list [dataSource]="courses"></app-subject-list>
+            </div>
+        </div>
+        <div class="col2">
+            <div class="element">
+                <app-constraint-stats *ngIf="courses && constraintGroups" [constraintGroups]="constraintGroups"></app-constraint-stats>
+            </div>
+            <div class="element">
+                <app-course-info *ngIf="courses" [course]="courses[0]"></app-course-info>
+            </div>
+        </div>
     </div>
-    <div class="col2">
-        <div class="element">
-        <app-group-stats *ngIf="courses && mainGroups" [courses]="courses" [mainGroups]="mainGroups" ></app-group-stats>
 
-        </div>
-        <div class="element">
-        <app-constraint-stats *ngIf="courses && constraintGroups" [constraintGroups]="constraintGroups"></app-constraint-stats>
-        </div>
-    </div>
-</div>
+</mat-drawer-container>

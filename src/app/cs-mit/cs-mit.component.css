@@ -12,11 +12,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .col1 {
-    flex: 1 0 50%;
+    flex: 1 0 60%;
     padding: 1px;
 }
 
 .col2 {
-    flex: 1 0 50%;
+    flex: 1 0 40%;
     padding: 1px;
 }
+  
+.sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  
+.sidenav {
+    padding: 20px;
+  }

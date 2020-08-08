@@ -25,7 +25,7 @@ export class GroupStatsComponent implements OnInit {
 
     for (let i = 0; i < this.mainGroups.length; i++) {
       xAxisData.push(this.mainGroups[i].label);
-      data.push({value: 100, itemStyle: {color: colors[i]}});
+      data.push({value: Math.random() * 100, itemStyle: {color: colors[i]}});
     }
 
     this.options = {

@@ -9,6 +9,8 @@ import { MaterialModule } from './material.module';
 import { GroupStatsComponent } from './components/group-stats/group-stats.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { ConstraintStatsComponent } from './components/constraint-stats/constraint-stats.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { CourseInfoComponent } from './components/course-info/course-info.component';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { ConstraintStatsComponent } from './components/constraint-stats/constrai
     CsMitComponent,
     SubjectListComponent,
     GroupStatsComponent,
-    ConstraintStatsComponent
+    ConstraintStatsComponent,
+    SidenavComponent,
+    CourseInfoComponent
   ],
   imports: [
     CommonModule,

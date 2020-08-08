@@ -7,7 +7,16 @@
         "groups":["EECS", "PROB"],
         "prereqs":"GIR:CAL2",
         "lecturers":["J. Kelner", "S. Sheffield"],
-        "units":[4, 0, 8]
+        "units":[4, 0, 8],
+        "ocw": "https://ocw.mit.edu/search/ocwsearch.htm?q=18.600",
+        "registrar": null,
+        "participation":{
+            "6-1":[24, 0, 9, 11, 4],
+            "6-2":[126, 0, 54, 36, 36],
+            "6-3":[391, 4, 158, 117, 112],
+            "6-7":[21, 0, 4, 11, 6],
+            "6-14":[32, 4, 18, 8, 2]
+        }
         },
         {
             "number": "6.008",
@@ -16,17 +25,20 @@
             "groups":["foundation", "PROB", "EECS", "EECS12"],
             "prereqs":"GIR:CAL2 or permission of instructor",
             "lecturers":["L. Zheng"],
-            "units":[4, 4, 4]
+            "units":[4, 4, 4],
+            "ocw": "https://ocw.mit.edu/search/ocwsearch.htm?q=6.008",
+            "registrar":"http://student.mit.edu/catalog/m6a.html#6.008",
+            "participation":{}
         }
     ],
     "mainGroups": [
         {
-            "label": "Intoductory",
+            "label": "Intro",
             "description": "Explore the fundementals of EECS",
             "name": "intro"
         },
         {
-            "label": "Programming Skills",
+            "label": "Programming",
             "description": "Develop basic programming skills used in subjects of greater complexity",
             "name": "prog"
         },

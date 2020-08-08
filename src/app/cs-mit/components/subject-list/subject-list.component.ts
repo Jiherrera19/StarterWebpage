@@ -17,10 +17,26 @@ import { Course } from 'src/app/cs-mit/lib/service/courses/courses.model';
 export class SubjectListComponent implements OnInit {
   @Input() dataSource: Array<Course>;
   columnsToDisplay = ['Your Classes'];
-  expandedCourse: Course | null;
+  expandedCourses: Array<any> = [];
+  searchQuery: string;
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  containsObject(obj: Object, list: Array<Object>) {
+    var i: number;
+    for (i = 0; i < list.length; i++) {
+        if (list[i] === obj) {
+            return true;
+        }
+    }
+
+    return false;
+  }
+
+  removeObjectInstances(obj: Object) {
+    this.expandedCourses = this.expandedCourses.filter(item => item !== obj);
   }
 
 }
