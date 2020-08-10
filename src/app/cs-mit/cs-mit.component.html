@@ -2,7 +2,10 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <mat-drawer-container autosize>
     <mat-drawer #drawer class="sidenav" mode="side" opened>
-      <p>Sidenav</p>
+        <h1 style="text-align: center; color: whitesmoke;">tbd</h1>
+        <button mat-button style="outline: none; flex: 0 1 auto; color: whitesmoke;">
+          link
+        </button>
     </mat-drawer>
 
     <div class="main-container">
@@ -19,7 +22,7 @@
                 <app-constraint-stats *ngIf="courses && constraintGroups" [constraintGroups]="constraintGroups"></app-constraint-stats>
             </div>
             <div class="element">
-                <app-course-info *ngIf="courses" [course]="courses[0]"></app-course-info>
+                <app-course-info *ngIf="courses && mainGroups && constraintGroups" [mainGroups]="mainGroups" [constraintGroups]="constraintGroups" [course]="courses[0]"></app-course-info>
             </div>
         </div>
     </div>

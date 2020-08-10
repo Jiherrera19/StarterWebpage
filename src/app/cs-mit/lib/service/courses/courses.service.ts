@@ -12,7 +12,7 @@ import { Course } from './courses.model';
 export class CoursesService {
   constructor(private http: HttpClient) {}
   getScrapedInfo(): Observable<Object> {
-    let url = 'assets/data/spoof-api-data.json';
+    let url = 'assets/data/api-data.json';
     return this.http.get(url)
       .pipe(
         retry(3),

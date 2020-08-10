@@ -8,7 +8,7 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
 
 .table-wrapper {
     padding: 16px;
-    background-color: white;
+    background-color: whitesmoke;
     border-radius: 4px;
 }
 
@@ -17,7 +17,7 @@ tr.example-detail-row {
 }
 
 tr.example-element-row:not(.example-expanded-row):hover {
-    background: whitesmoke;
+    background: #efefef;
 }
 
 tr.example-element-row:not(.example-expanded-row):active {
@@ -55,7 +55,7 @@ tr.example-element-row:not(.example-expanded-row):active {
     border-radius: 3px;
     padding: 4px 15px 4px 15px;
     position: relative;
-    background: #fff;
+    background: whitesmoke;
     border: 1px solid #ddd;
     outline: none;
     -webkit-transition: all 200ms ease-in-out;

@@ -29,8 +29,8 @@ export class CsMitComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.coursesSubscription = this.coursesService.getScrapedInfo().subscribe((data: ScrapedInfo) => {
       this.courses = data.courses;
-      this.constraintGroups = data.constraintGroups;
-      this.mainGroups = data.mainGroups;
+      this.constraintGroups = data.deptReq["6-2"].constraintGroups;
+      this.mainGroups = data.deptReq["6-2"].mainGroups;
       this.assignGroupCompletion();
     });
     

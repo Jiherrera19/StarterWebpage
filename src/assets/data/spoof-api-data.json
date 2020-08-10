@@ -2,113 +2,354 @@
     "courses": [
         {
         "number": "18.600",
-        "name": "Probability and Random Variables",
+        "name": "18.600 Probability and Random Variables",
         "description": "Probability spaces, random variables, distribution functions. Binomial, geometric, hypergeometric, Poisson distributions. Uniform, exponential, normal, gamma and beta distributions. Conditional probability, Bayes theorem, joint distributions. Chebyshev inequality, law of large numbers, and central limit theorem. Credit cannot also be received for 6.041A or 6.041B.",
         "groups":["EECS", "PROB"],
         "prereqs":"GIR:CAL2",
         "lecturers":["J. Kelner", "S. Sheffield"],
-        "units":[4, 0, 8],
+        "units":["4", "0", "8"],
         "ocw": "https://ocw.mit.edu/search/ocwsearch.htm?q=18.600",
         "registrar": null,
         "participation":{
-            "6-1":[24, 0, 9, 11, 4],
-            "6-2":[126, 0, 54, 36, 36],
-            "6-3":[391, 4, 158, 117, 112],
-            "6-7":[21, 0, 4, 11, 6],
-            "6-14":[32, 4, 18, 8, 2]
-        }
+            "6-1":["24", "", "9", "11", "4"],
+            "6-2":["126", "", "54", "36", "36"],
+            "6-3":["391", "4", "158", "117", "112"],
+            "6-7":["21", "", "4", "11", "6"],
+            "6-14":["32", "4", "18", "8", "2"]
+        },
+        "attributes": ["under", "fall", "spring"]
         },
         {
             "number": "6.008",
-            "name": "Introduction to Inference",
+            "name": "18.600 Introduction to Inference",
             "description": "Introduces probabilistic modeling for problems of inference and machine learning from data, emphasizing analytical and computational aspects. Distributions, marginalization, conditioning, and structure; graphical and neural network representations. Belief propagation, decision-making, classification, estimation, and prediction. Sampling methods and analysis. Asymptotic analysis and information measures. Computational laboratory component explores the concepts introduced in class in the context of contemporary applications. Students design inference algorithms, investigate their behavior on real data, and discuss experimental results.",
-            "groups":["foundation", "PROB", "EECS", "EECS12"],
+            "groups":["PROB", "EECS", "EECS12"],
             "prereqs":"GIR:CAL2 or permission of instructor",
             "lecturers":["L. Zheng"],
-            "units":[4, 4, 4],
+            "units":["4", "4", "4"],
             "ocw": "https://ocw.mit.edu/search/ocwsearch.htm?q=6.008",
             "registrar":"http://student.mit.edu/catalog/m6a.html#6.008",
-            "participation":{}
+            "participation":{},
+            "attributes": ["under", "fall"]
         }
     ],
-    "mainGroups": [
-        {
-            "label": "Intro",
-            "description": "Explore the fundementals of EECS",
-            "name": "intro"
-        },
-        {
-            "label": "Programming",
-            "description": "Develop basic programming skills used in subjects of greater complexity",
-            "name": "prog"
-        },
-        {
-            "label": "Math",
-            "description": "18.03 is a requirement for 6-2",
-            "name": "math"
-        },
-        {
-            "label": "Foundation",
-            "description": "Build depth and breadth in areas ranging from circuits and electronics to applied electromagnatics and from principles of software development to signals and systems.",
-            "name": "foundation"
-        },
-        {
-            "label": "Header",
-            "description": "Provide mastering within EECS's subdisciplines: microelectronics; communicaiton, control and signal processing; bioelectrical engineering; computer systems engineering; design and analysis of algorithims; artificial intelligence.",
-            "name": "header"
-        }
-    ],
-    "constraintGroups": [
-        {
-            "label": "Communication Intensive",
-            "description": "Students must make one of their two required CI-M classes either 6.UAT or 6.UAR",
-            "name": "communication"
-        },
-        {
-            "label": "Advanced Undergraduate",
-            "description": "These classes meet the criteria that at least 40% of the grade for these 12-unit subjects is based on new advanced technical material that is rigorously evaluated through examinations, problem sets, projects, and papers.",
-            "name": "AUS2"
-        },
-        {
-            "label": "EECS",
-            "description": "Any subject that satisfies departmental requirements is an EECS subject",
-            "name": "EECS"
-        },
-        {
-            "label": "Advanced Departmental Lab",
-            "description": "At least 40% of the grade of the 12-unit subjects is based on labratory assignments",
-            "name": "DLAB2"
-        },
-        {
-            "label": "Independent Inquiry",
-            "description": "At least 40% of the grade of the 12-unit subjects is based on a single, relativley open-ended project",
-            "name": "II"
-        },
-        {
-            "label": "Probability",
-            "description": "These subjects provide grounding in probability",
-            "name": "PROB"
-        },
-        {
-            "label": "Additional Communication Intensive",
-            "description": "These subjects satisify your CI-M requirement",
-            "name": "CIM2"
-        },
-        {
-            "label": "CS level 1 and 2",
-            "description": "These subjects are level 1 and 2 Computer Science subjects",
-            "name": "CS12"
-        },
-        {
-            "label": "EE level 1 and 2",
-            "description": "These subjects are level 1 and 2 Electrical Engineering subjects",
-            "name": "EE12"
-        },
-        {
-            "label": "EECS level 1 and 2",
-            "description": "These subjects are level 1 and 2 Electrical Engineering and Computer Science subjects",
-            "name": "EECS12"
-        }
-    ]
-    
+    "6-1": {
+        "mainGroups": [
+            {
+                "label": "Intro",
+                "description": "Explore the fundementals of EECS",
+                "name": "intro",
+                "classes": [
+                "6.01",
+                "6.02",
+                "6.03",
+                "6.08"
+                ]
+            },
+            {
+                "label": "Programming",
+                "description": "Develop basic programming skills used in subjects of greater complexity",
+                "name": "prog",
+                "classes": [
+                "6.0001",
+                "6.0002",
+                "6.145"
+                ]
+            },
+            {
+                "label": "Math",
+                "description": "18.03 is a requirement for 6-1",
+                "name": "math",
+                "classes": [
+                "18.03"
+                ]
+            },
+            {
+                "label": "Foundation",
+                "description": "Build depth and breadth in areas ranging from circuits and electronics to applied electromagnatics and from principles of software development to signals and systems.",
+                "name": "foundation",
+                "classes": [
+                "6.002",
+                "6.003",
+                "6.004"
+                ]
+            },
+            {
+                "label": "Header",
+                "description": "Provide mastering within EECS's subdisciplines: microelectronics; communicaiton, control and signal processing; bioelectrical engineering; computer systems engineering; design and analysis of algorithims; artificial intelligence.",
+                "name": "header",
+                "classes": [
+                "6.011",
+                "6.012",
+                "6.013",
+                "6.014",
+                "6.021",
+                "6.036",
+                "6.640"
+                ]
+            }
+        ],
+        "constraintGroups": [
+            {
+                "label": "Communication Intensive",
+                "description": "Students must make one of their two required CI-M classes either 6.UAT or 6.UAR.",
+                "name": "CIM2"
+            },
+            {
+                "label": "Advanced Undergraduate",
+                "description": "These classes meet the criteria that at least 40% of the grade for these 12-unit subjects is based on new advanced technical material that is rigorously evaluated through examinations, problem sets, projects, and papers.",
+                "name": "AUS2"
+            },
+            {
+                "label": "EECS",
+                "description": "Any subject that satisfies departmental requirements is an EECS subject",
+                "name": "EECS"
+            },
+            {
+                "label": "Advanced Departmental Lab",
+                "description": "At least 40% of the grade of the 12-unit subjects is based on labratory assignments",
+                "name": "DLAB2"
+            },
+            {
+                "label": "Independent Inquiry",
+                "description": "At least 40% of the grade of the 12-unit subjects is based on a single, relativley open-ended project",
+                "name": "II"
+            },
+            {
+                "label": "Probability",
+                "description": "These subjects provide grounding in probability",
+                "name": "PROB"
+            },
+            {
+                "label": "CS level 1 and 2",
+                "description": "These subjects are level 1 and 2 Computer Science subjects",
+                "name": "CS12"
+            },
+            {
+                "label": "EE level 1 and 2",
+                "description": "These subjects are level 1 and 2 Electrical Engineering subjects",
+                "name": "EE12"
+            },
+            {
+                "label": "EECS level 1 and 2",
+                "description": "These subjects are level 1 and 2 Electrical Engineering and Computer Science subjects",
+                "name": "EECS12"
+            }
+        ]
+    },
+    "6-2": {
+        "mainGroups": [
+            {
+                "label": "Intro",
+                "description": "Explore the fundementals of EECS",
+                "name": "intro",
+                "classes": [
+                "6.01",
+                "6.02",
+                "6.03",
+                "6.08"
+                ]
+            },
+            {
+                "label": "Programming",
+                "description": "Develop basic programming skills used in subjects of greater complexity",
+                "name": "prog",
+                "classes": [
+                "6.0001",
+                "6.0002",
+                "6.145"
+                ]
+            },
+            {
+                "label": "Math",
+                "description": "18.03 is a requirement for 6-2",
+                "name": "math",
+                "classes": [
+                "18.03"
+                ]
+            },
+            {
+                "label": "Foundation",
+                "description": "Build depth and breadth in areas ranging from circuits and electronics to applied electromagnatics and from principles of software development to signals and systems.",
+                "name": "foundation",
+                "classes": [
+                "6.002",
+                "6.003",
+                "6.004",
+                "6.006",
+                "6.008",
+                "6.009"
+                ]
+            },
+            {
+                "label": "Header",
+                "description": "Provide mastering within EECS's subdisciplines: microelectronics; communicaiton, control and signal processing; bioelectrical engineering; computer systems engineering; design and analysis of algorithims; artificial intelligence.",
+                "name": "header",
+                "classes": [
+                "6.011",
+                "6.012",
+                "6.013",
+                "6.014",
+                "6.021",
+                "6.031",
+                "6.033",
+                "6.034",
+                "6.036",
+                "6.045",
+                "6.046",
+                "6.640"
+                ]
+            }
+        ],
+        "constraintGroups": [
+            {
+                "label": "Communication Intensive",
+                "description": "Students must make one of their two required CI-M classes either 6.UAT or 6.UAR.",
+                "name": "CIM2"
+            },
+            {
+                "label": "Advanced Undergraduate",
+                "description": "These classes meet the criteria that at least 40% of the grade for these 12-unit subjects is based on new advanced technical material that is rigorously evaluated through examinations, problem sets, projects, and papers.",
+                "name": "AUS2"
+            },
+            {
+                "label": "EECS",
+                "description": "Any subject that satisfies departmental requirements is an EECS subject",
+                "name": "EECS"
+            },
+            {
+                "label": "Advanced Departmental Lab",
+                "description": "At least 40% of the grade of the 12-unit subjects is based on labratory assignments",
+                "name": "DLAB2"
+            },
+            {
+                "label": "Independent Inquiry",
+                "description": "At least 40% of the grade of the 12-unit subjects is based on a single, relativley open-ended project",
+                "name": "II"
+            },
+            {
+                "label": "Probability",
+                "description": "These subjects provide grounding in probability",
+                "name": "PROB"
+            },
+            {
+                "label": "CS level 1 and 2",
+                "description": "These subjects are level 1 and 2 Computer Science subjects",
+                "name": "CS12"
+            },
+            {
+                "label": "EE level 1 and 2",
+                "description": "These subjects are level 1 and 2 Electrical Engineering subjects",
+                "name": "EE12"
+            },
+            {
+                "label": "EECS level 1 and 2",
+                "description": "These subjects are level 1 and 2 Electrical Engineering and Computer Science subjects",
+                "name": "EECS12"
+            }
+        ]
+    },
+    "6-3": {
+        "mainGroups": [
+            {
+                "label": "Intro",
+                "description": "Explore the fundementals of EECS",
+                "name": "intro",
+                "classes": [
+                "6.01",
+                "6.02",
+                "6.03",
+                "6.08"
+                ]
+            },
+            {
+                "label": "Programming",
+                "description": "Develop basic programming skills used in subjects of greater complexity",
+                "name": "prog",
+                "classes": [
+                "6.0001",
+                "6.0002",
+                "6.145"
+                ]
+            },
+            {
+                "label": "Math",
+                "description": "6.042 is a requirement for 6-3",
+                "name": "math",
+                "classes": [
+                "6.042"
+                ]
+            },
+            {
+                "label": "Foundation",
+                "description": "Build depth and breadth in areas ranging from circuits and electronics to applied electromagnatics and from principles of software development to signals and systems.",
+                "name": "foundation",
+                "classes": [
+                "6.004",
+                "6.006",
+                "6.009"
+                ]
+            },
+            {
+                "label": "Header",
+                "description": "Provide mastering within EECS's subdisciplines: microelectronics; communicaiton, control and signal processing; bioelectrical engineering; computer systems engineering; design and analysis of algorithims; artificial intelligence.",
+                "name": "header",
+                "classes": [
+                "6.031",
+                "6.033",
+                "6.034",
+                "6.036",
+                "6.045",
+                "6.046"
+                ]
+            }
+        ],
+        "constraintGroups": [
+            {
+                "label": "Communication Intensive",
+                "description": "Students must make one of their two required CI-M classes either 6.UAT or 6.UAR.",
+                "name": "CIM2"
+            },
+            {
+                "label": "Advanced Undergraduate",
+                "description": "These classes meet the criteria that at least 40% of the grade for these 12-unit subjects is based on new advanced technical material that is rigorously evaluated through examinations, problem sets, projects, and papers.",
+                "name": "AUS2"
+            },
+            {
+                "label": "EECS",
+                "description": "Any subject that satisfies departmental requirements is an EECS subject",
+                "name": "EECS"
+            },
+            {
+                "label": "Advanced Departmental Lab",
+                "description": "At least 40% of the grade of the 12-unit subjects is based on labratory assignments",
+                "name": "DLAB2"
+            },
+            {
+                "label": "Independent Inquiry",
+                "description": "At least 40% of the grade of the 12-unit subjects is based on a single, relativley open-ended project",
+                "name": "II"
+            },
+            {
+                "label": "Probability",
+                "description": "These subjects provide grounding in probability",
+                "name": "PROB"
+            },
+            {
+                "label": "CS level 1 and 2",
+                "description": "These subjects are level 1 and 2 Computer Science subjects",
+                "name": "CS12"
+            },
+            {
+                "label": "EE level 1 and 2",
+                "description": "These subjects are level 1 and 2 Electrical Engineering subjects",
+                "name": "EE12"
+            },
+            {
+                "label": "EECS level 1 and 2",
+                "description": "These subjects are level 1 and 2 Electrical Engineering and Computer Science subjects",
+                "name": "EECS12"
+            }
+        ]
+    }
 }

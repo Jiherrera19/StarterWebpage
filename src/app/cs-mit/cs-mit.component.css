@@ -4,7 +4,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .main-container {
     display: flex;
     flex-direction: row;
-    background-color: skyblue;
+    background-color: #DCAE96 ;
 }
 
 .element {
@@ -30,4 +30,5 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   
 .sidenav {
     padding: 20px;
+    background-color: #3F4652 ;
   }

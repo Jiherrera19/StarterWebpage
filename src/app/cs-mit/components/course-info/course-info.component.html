@@ -1,4 +1,4 @@
-<mat-card class="example-card">
+<mat-card style="background-color: whitesmoke;">
     <mat-card-header style="justify-content: center;">
       <mat-card-title>{{ course.number }} {{ course.name }}</mat-card-title>
     </mat-card-header>
@@ -9,7 +9,7 @@
       </p>
       <h3 class="text-header">Constraints Satisfied</h3>
       <p>
-        {{ course.groups }}
+        {{ getGroupLabels() }}
       </p>
       <h3 class="text-header">Prerequisites</h3>
       <p>

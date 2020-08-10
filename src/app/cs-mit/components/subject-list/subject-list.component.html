@@ -1,5 +1,9 @@
-<div class="table-wrapper"><table mat-table
-       [dataSource]="dataSource" multiTemplateDataRows>
+<div class="table-wrapper"
+  style="background-color: whitesmoke;">
+  <table mat-table
+       [dataSource]="dataSource"
+       multiTemplateDataRows
+       style="background-color: whitesmoke;">
   <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
     <th mat-header-cell *matHeaderCellDef>
       <div class="search-wrapper search-box">
@@ -16,21 +20,21 @@
     </th>
     <td mat-cell *matCellDef="let course">
         <br/>
-        <mat-card-title>{{ course.name }}</mat-card-title>
+        <mat-card-title>{{ course.name ? course.name : "This Course Has No Availible Title" }}</mat-card-title>
         <mat-card-subtitle>{{ course.number }}</mat-card-subtitle>
     </td>
   </ng-container>
 
   <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-  <ng-container matColumnDef="expandedDetail">
+  <ng-container matColumnDef="expandedDetail" >
     <td mat-cell *matCellDef="let course" [attr.colspan]="columnsToDisplay.length">
       <div class="course-detail"
            [@detailExpand]="containsObject(course, expandedCourses) ? 'expanded' : 'collapsed'">
 
-        <mat-card>
+        <mat-card style="background-color: whitesmoke;">
             <mat-card-content>
                 <h2>Description</h2>
-                <p>{{ course.description }}</p>
+                <p>{{ course.description ? course.description : "Looks like this Course didn't come with any relevant Info. Try the OCW or Registrar Links." }}</p>
                 <h2> Prereqs </h2>
                 <p>{{ course.prereqs }}</p>
             </mat-card-content>
