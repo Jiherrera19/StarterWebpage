@@ -1,7 +1,8 @@
 <mat-card style="background-color: whitesmoke;">
     <mat-card-content>
         <div echarts 
-            [options]="options">
+            [options]="options"
+            (chartInit)="onChartInit($event)">
         </div>
     </mat-card-content>
 </mat-card>

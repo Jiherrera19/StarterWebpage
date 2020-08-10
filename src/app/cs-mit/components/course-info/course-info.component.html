@@ -1,6 +1,12 @@
 <mat-card style="background-color: whitesmoke;">
+  <div *ngIf="!(course && course.number)">
+    <mat-card-header style="justify-content: center; text-align: center;">
+      <mat-card-title>Press any of the little arrows to select a course from the left!</mat-card-title>
+    </mat-card-header>
+  </div>
+  <div *ngIf="course && course.number">
     <mat-card-header style="justify-content: center;">
-      <mat-card-title>{{ course.number }} {{ course.name }}</mat-card-title>
+      <mat-card-title>{{ course.number  }} {{ course.name }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <h3 class="text-header">Description</h3>
@@ -23,28 +29,16 @@
       <p>
         {{ course.units }}
       </p>
-      <h3 class="text-header">Participation</h3>
-
-        <mat-accordion *ngIf="course.participation">
-          <div *ngFor="let key of objKeys(course.participation)">
-            <mat-expansion-panel hideToggle *ngIf="course.participation[key][0]">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  {{
-                    key
-                  }}
-                </mat-panel-title>
-                <mat-panel-description>
-                  All Students: {{ course.participation[key][0]}}
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-                <h3>Freshmen: {{ course.participation[key][1]}}</h3>
-                <h3>Sophomores: {{ course.participation[key][2]}}</h3>
-                <h3>Juniors: {{ course.participation[key][3]}}</h3>
-                <h3>Seniors: {{ course.participation[key][4]}}</h3>
-            </mat-expansion-panel>
-          </div>
-        </mat-accordion>
+      <h3 *ngIf="partDataToDisplay()" class="text-header">Participation</h3>
+      <mat-button-toggle-group *ngIf="partDataToDisplay()" appearance="legacy" name="selectMajor" aria-label="selectMajor">
+        <mat-button-toggle *ngIf="course.participation['6-1']" (click)="handleSelectMajor('6-1')">6-1</mat-button-toggle>
+        <mat-button-toggle *ngIf="course.participation['6-2']" (click)="handleSelectMajor('6-2')">6-2</mat-button-toggle>
+        <mat-button-toggle *ngIf="course.participation['6-3']" (click)="handleSelectMajor('6-3')">6-3</mat-button-toggle>
+        <mat-button-toggle *ngIf="course.participation['6-7']" (click)="handleSelectMajor('6-7')">6-7</mat-button-toggle>
+        <mat-button-toggle *ngIf="course.participation['6-14']" (click)="handleSelectMajor('6-14')">6-14</mat-button-toggle>
+      </mat-button-toggle-group>
+      <br>
+      {{participationDataToDisplay}}
 
     </mat-card-content>
     <mat-card-actions>
@@ -55,4 +49,5 @@
         <button mat-button *ngIf="course.registrar">Registrar</button>
       </a>
     </mat-card-actions>
-  </mat-card>
+  </div>
+</mat-card>

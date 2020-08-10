@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { GumbyComponent } from './gumby/gumby.component';
+import { CsMitComponent } from './cs-mit/cs-mit.component';
 
 @Component({
   selector: 'app-root',

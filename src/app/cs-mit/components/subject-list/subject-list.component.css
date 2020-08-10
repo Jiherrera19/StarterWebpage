@@ -32,10 +32,15 @@ tr.example-element-row:not(.example-expanded-row):active {
     overflow: hidden;
     display: flex;
 }
+.title-container {
+    display: flex;
+    justify-content: space-between;
+}
+.icon {
+    flex: 0 1 auto;
+}
 
 .search-button {
-    outline: none;
-    flex: 0 1 auto;
     visibility: hidden;
 }
 
@@ -45,8 +50,6 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .input-box {
     flex: 0 1 100%;
-    outline: none;
-    border: none;
 }
 
 .search-box {
@@ -57,7 +60,6 @@ tr.example-element-row:not(.example-expanded-row):active {
     position: relative;
     background: whitesmoke;
     border: 1px solid #ddd;
-    outline: none;
     -webkit-transition: all 200ms ease-in-out;
     -moz-transition: all 200ms ease-in-out;
     transition: all 200ms ease-in-out;
@@ -87,4 +89,17 @@ tr.example-element-row:not(.example-expanded-row):active {
     -webkit-transition: all 200ms ease-in-out;
     -moz-transition: all 200ms ease-in-out;
     transition: all 200ms ease-in-out;
+}
+
+.unselected {
+    border: solid;
+    border-color: darkgrey;
+    color: darkgrey;
+}
+
+.selected {
+    border: solid;
+    border-color: darkgrey;
+    background-color: darkgrey;
+    color: whitesmoke;
 }

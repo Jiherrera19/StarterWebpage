@@ -1,16 +1,19 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subject } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
-import { CsMitModule } from 'src/app/cs-mit/cs-mit.module';
 import { Course } from './courses.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoursesService {
+  courseInfoSubject: Subject<Course> = new Subject<Course>();
+  pickedCoursesSubject: Subject<Array<Course>> = new Subject<Array<Course>>();
+
   constructor(private http: HttpClient) {}
+
   getScrapedInfo(): Observable<Object> {
     let url = 'assets/data/api-data.json';
     return this.http.get(url)
@@ -19,6 +22,7 @@ export class CoursesService {
         catchError(this.handleError)
       );
   }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

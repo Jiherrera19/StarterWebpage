@@ -9,12 +9,13 @@ export interface Course {
     ocw: string;
     participation: Particicpation;
     registrar: string;
+    addedToPersonal: boolean;
 }
 
 export interface Particicpation {
-    "6-1": Array<any>;
-    "6-2": Array<any>;
-    "6-3": Array<any>;
-    "6-7": Array<any>;
-    "6-14": Array<any>;
+    "6-1": Array<string> | undefined;
+    "6-2": Array<string> | undefined;
+    "6-3": Array<string> | undefined;
+    "6-7": Array<string> | undefined;
+    "6-14": Array<string> | undefined;
 }

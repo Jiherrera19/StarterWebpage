@@ -32,3 +32,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 20px;
     background-color: #3F4652 ;
   }
+
+.sticky{
+    position: fixed;
+    top: 1px;
+    padding-right: 2px;
+    overflow: hidden;
+    z-index: 10;
+  }
+
+.invisible{
+    visibility: hidden;
+}

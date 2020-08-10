@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { CsMitRoutingModule } from './cs-mit-routing.module';
 import { CsMitComponent } from './cs-mit.component';
@@ -23,10 +23,10 @@ import { CourseInfoComponent } from './components/course-info/course-info.compon
     CourseInfoComponent
   ],
   imports: [
-    CommonModule,
     CsMitRoutingModule,
-    FormsModule,
     MaterialModule,
+    FormsModule,
+    CommonModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     })

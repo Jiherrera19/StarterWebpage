@@ -3,7 +3,7 @@ import { Course } from './lib/service/courses/courses.model';
 export interface Group {
     label: string;
     description: string;
-    completion: number;
+    completion: number[];
     name: string;
     classes: Array<string>;
 }

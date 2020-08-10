@@ -26,7 +26,6 @@ export class MemeGeneratorComponent implements OnInit, OnDestroy, OnChanges, Aft
 
   protected render() {
       if (this.isMounted()) {
-          console.log(App);
           ReactDOM.render(React.createElement(App), this.getRootDomNode());
       }
   }

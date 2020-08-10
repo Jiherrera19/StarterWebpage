@@ -3,7 +3,7 @@
 <mat-drawer-container autosize>
     <mat-drawer #drawer class="sidenav" mode="side" opened>
         <h1 style="text-align: center; color: whitesmoke;">tbd</h1>
-        <button mat-button style="outline: none; flex: 0 1 auto; color: whitesmoke;">
+        <button mat-button stlye="flex: 0 1 auto; color: whitesmoke;">
           link
         </button>
     </mat-drawer>
@@ -14,7 +14,7 @@
                 <app-group-stats *ngIf="courses && mainGroups" [courses]="courses" [mainGroups]="mainGroups" ></app-group-stats>
             </div>
             <div class="element">
-                <app-subject-list [dataSource]="courses"></app-subject-list>
+                <app-subject-list *ngIf="courses" [dataSource]="courses"></app-subject-list>
             </div>
         </div>
         <div class="col2">
@@ -22,9 +22,11 @@
                 <app-constraint-stats *ngIf="courses && constraintGroups" [constraintGroups]="constraintGroups"></app-constraint-stats>
             </div>
             <div class="element">
-                <app-course-info *ngIf="courses && mainGroups && constraintGroups" [mainGroups]="mainGroups" [constraintGroups]="constraintGroups" [course]="courses[0]"></app-course-info>
+                <app-course-info #courseInfo [class.sticky] = "courseInfoSticky" [mainGroups]="mainGroups" [constraintGroups]="constraintGroups"></app-course-info>
             </div>
         </div>
     </div>
+
+    <div style="display: block; width: 100%; height: 100vh; background-color: #DCAE96;"></div>
 
 </mat-drawer-container>
