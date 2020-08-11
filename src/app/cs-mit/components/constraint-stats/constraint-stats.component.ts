@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Group } from '../../cs-mit.model';
 import { Course } from '../../lib/service/courses/courses.model';
+import { CoursesService } from '../../lib/service/courses/courses.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-constraint-stats',
@@ -11,12 +13,41 @@ export class ConstraintStatsComponent implements OnInit {
   @Input() courses: Array<Course>;
   @Input() constraintGroups: Array<Group>;
   options: any;
+
+  updateGraphSubscription: Subscription;
+  chart: any;
   
-  constructor() { }
+  constructor(private coursesService: CoursesService) {
+    this.updateGraphSubscription = this.coursesService.pickedCoursesSubject.subscribe((courses) => {
+      this.updateGraph(courses);
+    });
+  }
 
   ngOnInit(): void {
     this.setupGraph();
   }
+
+  updateGraph(courses: Course[]) {
+    this.constraintGroups.forEach(group => {
+      group.completion[0] = 0;
+    });
+    
+    this.constraintGroups.forEach((group, index) => {
+      courses.forEach(course => {
+        if (course && course.groups.includes(group.name)) {
+          this.constraintGroups[index].completion[0]++;
+        }
+      });
+      this.options.dataset.source[index][0] = group.completion[0]/group.completion[1];
+    });
+    if (this.chart) { this.chart.setOption(this.options) }
+    
+  }
+
+  onChartInit(chart) {
+    this.chart = chart;
+  }
+
   setupGraph() {
     const data = this.constraintGroups.map((group: Group) => {
       return [group.completion, group.label]
@@ -33,7 +64,8 @@ export class ConstraintStatsComponent implements OnInit {
       text: "Additional Constraints"
     },
     xAxis: {
-      show: false
+      show: false,
+      max: 1
     },
     yAxis: {
       type: 'category'
@@ -42,8 +74,8 @@ export class ConstraintStatsComponent implements OnInit {
       trigger: 'item',
       showDelay: 0,
       transitionDuration: 0,
-      formatter: function (params) {
-        return `<b>${params['name']}</b> : ${params['value']}`;
+      formatter: (params) => {
+        return `<b>${params['name']}</b> : ${this.getCompletionFraction(params['name'])}`;
       }
     },
     visualMap: {
@@ -70,4 +102,17 @@ export class ConstraintStatsComponent implements OnInit {
     };
   }
 
+  onChartFinished() {
+    this.coursesService.constraintFinishedRenderingSubject.next();
+  }
+
+  getCompletionFraction(groupName) {
+    let ret = '???';
+    this.constraintGroups.forEach((group) => {
+      if (group.label === groupName) {
+        ret = group.completion[0] + ' / ' + group.completion[1];
+      }
+    });
+    return ret;
+  }
 }

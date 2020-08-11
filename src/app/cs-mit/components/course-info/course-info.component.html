@@ -29,6 +29,8 @@
       <p>
         {{ course.units }}
       </p>
+      <h3 class="text-header"> Additional Attributes </h3>
+      <p>{{ courseAttributes() }}</p>
       <h3 *ngIf="partDataToDisplay()" class="text-header">Participation</h3>
       <mat-button-toggle-group *ngIf="partDataToDisplay()" appearance="legacy" name="selectMajor" aria-label="selectMajor">
         <mat-button-toggle *ngIf="course.participation['6-1']" (click)="handleSelectMajor('6-1')">6-1</mat-button-toggle>

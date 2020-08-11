@@ -123,4 +123,8 @@ export class GroupStatsComponent implements OnInit, OnDestroy {
       animationDelayUpdate: (idx) => idx * 5,
     };
   }
+
+  onChartFinished() {
+    this.coursesService.constraintFinishedRenderingSubject.next();
+  }
 }

@@ -12,6 +12,21 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
     border-radius: 4px;
 }
 
+.paginator {
+    background-color: whitesmoke;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.icons-container {
+    display: flex;
+    flex-direction: column;
+}
+
 tr.example-detail-row {
     height: 0;
 }
@@ -35,9 +50,12 @@ tr.example-element-row:not(.example-expanded-row):active {
 .title-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-top:auto;
 }
 .icon {
     flex: 0 1 auto;
+    background: transparent;
 }
 
 .search-button {

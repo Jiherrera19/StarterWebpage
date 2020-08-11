@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Course } from './lib/service/courses/courses.model';
 import { CoursesService } from './lib/service/courses/courses.service';
 import { Subscription } from 'rxjs';
@@ -11,7 +11,7 @@ import { ScrapedInfo, Group } from './cs-mit.model';
   templateUrl: './cs-mit.component.html',
   styleUrls: ['./cs-mit.component.css']
 })
-export class CsMitComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class CsMitComponent implements OnInit, OnDestroy {
   courses: Array<Course>; // All courses
   coursesSubscription: Subscription;
   constraintGroups: Array<Group>; // All course groups
@@ -20,7 +20,9 @@ export class CsMitComponent implements OnInit, OnDestroy, AfterViewChecked {
   courseInfoSticky: boolean = false;
   coursePositionSubscription: Subscription;
   courseInfoElementPosition: any;
-  courseInfoElementChangeCounter: number = 0;
+
+  constraintChartRenderedSubscription: Subscription;
+  constraintChartRenderedOnce: boolean = false;
 
   @ViewChild('courseInfo', { read: ElementRef }) courseInfoElement: ElementRef;
   @HostListener('window:scroll', ['$event'])
@@ -33,14 +35,6 @@ export class CsMitComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
 
-  ngAfterViewChecked(): void {
-    if (!this.courseInfoSticky && this.courseInfoElementChangeCounter <= 10) {
-      this.courseInfoElementPosition = this.offset(this.courseInfoElement.nativeElement).top;
-      this.courseInfoElementChangeCounter++;
-    }
-    
-  }
-
   offset(el) {
     var rect = el.getBoundingClientRect(),
     scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
@@ -52,12 +46,17 @@ export class CsMitComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    this.constraintChartRenderedSubscription = this.coursesService.constraintFinishedRenderingSubject.subscribe(() => {
+      if (!this.constraintChartRenderedOnce) {
+        this.constraintChartRenderedOnce = true;
+        this.courseInfoElementPosition = this.offset(this.courseInfoElement.nativeElement).top;
+      }
+    });
     this.coursesSubscription = this.coursesService.getScrapedInfo().subscribe((data: ScrapedInfo) => {
       this.courses = data.courses;
       this.constraintGroups = data.deptReq["6-2"].constraintGroups;
       this.mainGroups = data.deptReq["6-2"].mainGroups;
     });
-    
   }
 
   ngOnDestroy(): void {

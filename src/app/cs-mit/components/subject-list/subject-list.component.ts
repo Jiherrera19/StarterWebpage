@@ -1,7 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { Component, OnInit, Input, ViewChild, Inject } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Course } from 'src/app/cs-mit/lib/service/courses/courses.model';
 import { CoursesService } from '../../lib/service/courses/courses.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { FilterAttributes } from './subject-list.model';
+import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-subject-list',
@@ -16,20 +22,76 @@ import { CoursesService } from '../../lib/service/courses/courses.service';
   ]
 })
 export class SubjectListComponent implements OnInit {
-  @Input() dataSource: Array<Course>;
-  classesToDisplay: Array<Course>;
-  columnsToDisplay = ['Your Classes'];
+  @Input() dataSource;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+  constraintChartSubscription: Subscription;
+  groupStatsChartSubscription: Subscription;
+
+  constraintChartRenderedOnce: boolean = false;
+  groupStateChartRenderedOnce: boolean = false;
+
+  classesToDisplay: MatTableDataSource<Course>;
+  columnsToDisplay = ['col1'];
   expandedCourses: Array<Course> = [];
   searchQuery: string;
-  manageListIcon: any = {};
+  manageListIcon: any;
   onlyShowPicked: boolean = false;
+  filterAttributes: FilterAttributes = {
+    under: true,
+    grad: true,
+    fall: true,
+    spring: true,
+    notoffer: true,
+    iap: true
+  }
 
-  constructor(private coursesService: CoursesService) {
-    
+
+
+  constructor(private coursesService: CoursesService, private _bottomSheet: MatBottomSheet) {
   }
 
   ngOnInit(): void {
-    this.classesToDisplay = this.dataSource;
+    let cachedData = localStorage.getItem('PICKED_COURSES');
+    this.manageListIcon = JSON.parse(cachedData ? cachedData : '{}');
+
+    this.constraintChartSubscription = this.coursesService.constraintFinishedRenderingSubject.subscribe(() => {
+      if (!this.constraintChartRenderedOnce) {
+        this.constraintChartRenderedOnce = true;
+        if (this.groupStateChartRenderedOnce) {
+          this.coursesService.pickedCoursesSubject.next(this.getPickedCourses());
+        }
+      }
+    });
+
+    this.groupStatsChartSubscription = this.coursesService.constraintFinishedRenderingSubject.subscribe(() => {
+      if (!this.groupStateChartRenderedOnce) {
+        this.groupStateChartRenderedOnce = true;
+        if (this.constraintChartRenderedOnce) {
+          this.coursesService.pickedCoursesSubject.next(this.getPickedCourses());
+        }
+      }
+    });
+
+    this.classesToDisplay = new MatTableDataSource(this.dataSource);
+    this.classesToDisplay.paginator = this.paginator;
+    this.classesToDisplay.filterPredicate = (course, filter) => {
+      if (filter === ":show_mine") {
+        return this.manageListIcon[course.number] === "remove";
+      }
+      let canContinue = false;
+      course.attributes.forEach((attr) => {
+        if (this.filterAttributes[attr]) {
+          if (attr === 'nooffer') {
+            canContinue = false;
+          } else {
+            canContinue = true;
+          }
+        }
+      });
+      if (!canContinue) { return false }
+      return (course.number + course.name).includes(filter);
+    };
   }
 
   containsObject(obj: Object, list: Array<Object>) {
@@ -49,14 +111,7 @@ export class SubjectListComponent implements OnInit {
 
   handleSeachQuery(text: string) {
     this.onlyShowPicked = false;
-    if (text === "") {
-      this.classesToDisplay = this.dataSource;
-    } else {
-      this.classesToDisplay = this.dataSource.filter(course => {
-        const courseLabel = (course.number + course.name).toLocaleLowerCase();
-        return courseLabel.includes(text.toLocaleLowerCase());
-      });
-    }
+    this.classesToDisplay.filter = text.trim().toLowerCase();
   }
 
   chevronClicked(course: Course) {
@@ -75,6 +130,10 @@ export class SubjectListComponent implements OnInit {
       this.manageListIcon[course.number] = "remove";
     }
 
+    this.coursesService.pickedCoursesSubject.next(this.getPickedCourses());
+  }
+
+  getPickedCourses() {
     let pickedCourses = Object.keys(this.manageListIcon).map(key => {
       if (this.manageListIcon[key] === "remove") {
         return this.dataSource.find((course) => {
@@ -83,24 +142,58 @@ export class SubjectListComponent implements OnInit {
       }
     });
 
-    this.coursesService.pickedCoursesSubject.next(pickedCourses);
+    pickedCourses = pickedCourses.filter((course) => {
+      return course;
+    });
+
+    return pickedCourses;
+  }
+
+  trackBy(index, item){
+    return item.number;
   }
 
   handlePickedToggle() {
     this.onlyShowPicked = !this.onlyShowPicked;
 
     if (this.onlyShowPicked) {
-      let pickedCourses = Object.keys(this.manageListIcon).map(key => {
-        if (this.manageListIcon[key] === "remove") {
-          return this.dataSource.find((course) => {
-            return course.number === key;
-          });
-        }
-      });
-
-      this.classesToDisplay = pickedCourses;
+      this.classesToDisplay.filter = ":show_mine";
     } else {
-      this.classesToDisplay = this.dataSource;
+      this.classesToDisplay.filter = "";
     }
   }
+
+  handleFilterToggle() {
+    this._bottomSheet.open(SubjectListFiltersComponent, {restoreFocus: false, data: { componentInstance: this } });
+  }
+
+  saveClasses() {
+    localStorage.setItem('PICKED_COURSES', JSON.stringify(this.manageListIcon));
+  }
+
+  clearClasses() {
+    localStorage.removeItem('PICKED_COURSES');
+    this.manageListIcon = {};
+    this.coursesService.pickedCoursesSubject.next(this.getPickedCourses());
+  }
 }
+
+@Component({
+    selector: 'subject-list-filters',
+    templateUrl: `./subject-list-filters.component.html`,
+  })
+  export class SubjectListFiltersComponent {
+
+    constructor(private _bottomSheetRef: MatBottomSheetRef<SubjectListFiltersComponent>, @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
+    }
+  
+    openLink(event: MouseEvent): void {
+      this._bottomSheetRef.dismiss();
+      
+      event.preventDefault();
+    }
+
+    handleToggle(input: string): void {
+        this.data.componentInstance.filterAttributes[input] = !this.data.componentInstance.filterAttributes[input];
+    }
+  }

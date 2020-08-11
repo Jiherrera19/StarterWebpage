@@ -9,8 +9,8 @@ import { MaterialModule } from './material.module';
 import { GroupStatsComponent } from './components/group-stats/group-stats.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { ConstraintStatsComponent } from './components/constraint-stats/constraint-stats.component';
-import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { CourseInfoComponent } from './components/course-info/course-info.component';
+import { SubjectListFiltersComponent } from './components/subject-list/subject-list.component';
 
 
 @NgModule({
@@ -19,8 +19,8 @@ import { CourseInfoComponent } from './components/course-info/course-info.compon
     SubjectListComponent,
     GroupStatsComponent,
     ConstraintStatsComponent,
-    SidenavComponent,
-    CourseInfoComponent
+    CourseInfoComponent,
+    SubjectListFiltersComponent
   ],
   imports: [
     CsMitRoutingModule,

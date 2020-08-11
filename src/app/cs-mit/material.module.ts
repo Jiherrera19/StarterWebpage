@@ -10,6 +10,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   imports: [
@@ -22,7 +25,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatIconModule,
     MatFormFieldModule,
     MatExpansionModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatPaginatorModule,
+    MatBottomSheetModule,
+    MatTooltipModule
   ],
   exports: [
     MatTableModule,
@@ -34,7 +40,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatIconModule,
     MatFormFieldModule,
     MatExpansionModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatPaginatorModule,
+    MatBottomSheetModule,
+    MatTooltipModule
   ]
 })
 export class MaterialModule {}

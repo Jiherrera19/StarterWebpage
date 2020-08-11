@@ -2,7 +2,8 @@
     <mat-card-content>
         <div echarts 
             [options]="options"
-            (chartInit)="onChartInit($event)">
+            (chartInit)="onChartInit($event)"
+            (chartFinished)="onChartFinished()">
         </div>
     </mat-card-content>
 </mat-card>

@@ -1,0 +1,8 @@
+<mat-button-toggle-group name="filters" aria-label="filters" style="width: 100%;" vertical multiple>
+    <mat-button-toggle (click)="handleToggle('under')" [checked]="data.componentInstance.filterAttributes.under">Include Undergrad</mat-button-toggle>
+    <mat-button-toggle (click)="handleToggle('grad')" [checked]="data.componentInstance.filterAttributes.grad">Include Grad</mat-button-toggle>
+    <mat-button-toggle (click)="handleToggle('fall')" [checked]="data.componentInstance.filterAttributes.fall">Include Fall</mat-button-toggle>
+    <mat-button-toggle (click)="handleToggle('spring')" [checked]="data.componentInstance.filterAttributes.spring">Include Spring</mat-button-toggle>
+    <mat-button-toggle (click)="handleToggle('iap')" [checked]="data.componentInstance.filterAttributes.iap">Include IAP</mat-button-toggle>
+    <mat-button-toggle (click)="handleToggle('notoffer')" [checked]="data.componentInstance.filterAttributes.notoffer">Exclude Not Offered 2020-2021</mat-button-toggle>
+</mat-button-toggle-group>

@@ -59,4 +59,33 @@ export class CourseInfoComponent implements OnInit, OnDestroy {
   partDataToDisplay() {
     return Object.keys(this.course.participation).length > 0;
   }
+
+  courseAttributes() {
+    let ret = ''
+    this.course.attributes.forEach(attr => {
+      switch(attr) {
+        case 'under':
+          ret += 'Undergraduate | ';
+          break;
+        case 'grad':
+          ret += 'Graduate | ';
+          break;
+        case 'nooffer':
+          ret+= 'Not Offered 2020-21 | ';
+          break;
+        case 'fall':
+          ret += 'Fall | ';
+          break;
+        case 'spring':
+          ret+= 'Spring | ';
+          break;
+        case 'iap':
+          ret+= 'IAP | ';
+          break;
+        default:
+          break;
+      }
+    });
+    return ret.match(/^(.+)\| $/)[1];
+  }
 }

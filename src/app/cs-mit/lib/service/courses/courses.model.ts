@@ -10,6 +10,7 @@ export interface Course {
     participation: Particicpation;
     registrar: string;
     addedToPersonal: boolean;
+    attributes: string[];
 }
 
 export interface Particicpation {

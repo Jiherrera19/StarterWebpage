@@ -12,6 +12,9 @@ export class CoursesService {
   courseInfoSubject: Subject<Course> = new Subject<Course>();
   pickedCoursesSubject: Subject<Array<Course>> = new Subject<Array<Course>>();
 
+  constraintFinishedRenderingSubject: Subject<any> = new Subject<any>();
+  groupStatsFinishedRenderingSubject: Subject<any> = new Subject<any>();
+
   constructor(private http: HttpClient) {}
 
   getScrapedInfo(): Observable<Object> {
