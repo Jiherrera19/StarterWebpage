@@ -22,11 +22,16 @@ export class GumbyComponent implements OnInit, OnDestroy {
 
   gumbyObservable: Subscription;
   charlesObservable: Subscription;
+  keysObservable: Subscription;
+
+  keysImg: CanvasImageSource;
+  keysW: number = 286;
+  keysH: number = 100;
 
 
   charlesImg: CanvasImageSource;
-  charlesW: number = 85;
-  charlesH: number = 85;
+  charlesW: number = 55*1.3;
+  charlesH: number = 78*1.3;
 
   gumbyImg: CanvasImageSource = new Image();
   gumbyW: number = 100;
@@ -42,6 +47,8 @@ export class GumbyComponent implements OnInit, OnDestroy {
 
   charles_buffer: CharlesHead[] = [];
 
+  someKeyPressed: boolean = false;
+
   constructor() {}
 
   ngOnInit(): void {
@@ -53,9 +60,13 @@ export class GumbyComponent implements OnInit, OnDestroy {
     this.gumbyObservable = this.loadImage('../assets/img/gumby.jpg').subscribe(img => {
       this.player1.gumbyImg = img;
     });
-    this.charlesObservable = this.loadImage('../assets/img/charles-head.jpg').subscribe(img => {
+    this.charlesObservable = this.loadImage('../assets/img/charles-head.png').subscribe(img => {
       this.charlesImg = img;
       this.charles_buffer = [];
+    });
+
+    this.keysObservable = this.loadImage('../assets/img/keys.png').subscribe(img => {
+      this.keysImg = img;
     });
    
     //run the game
@@ -77,13 +88,16 @@ export class GumbyComponent implements OnInit, OnDestroy {
     if(e.key == "Right" || e.key == "ArrowRight") {
         this.player1.rightPressed = true;
         this.player1.imgIsFlipped = true;
+        this.someKeyPressed = true;
     }
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         this.player1.leftPressed = true;
         this.player1.imgIsFlipped = false;
+        this.someKeyPressed = true;
     }
     else if(e.key == " ") {
         this.player1.spacePressed = true;
+        this.someKeyPressed = true;
     }
   }
 
@@ -144,22 +158,32 @@ export class GumbyComponent implements OnInit, OnDestroy {
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.closePath();
 
+    //Render Keyboard image
+    if (!this.someKeyPressed) {
+      this.ctx.beginPath();
+      this.ctx.drawImage(this.keysImg, this.ctx.canvas.width - this.keysW, 0, this.keysW, this.keysH);
+      this.ctx.closePath();
+    }
+
     //Render Game title
     this.ctx.beginPath();
     this.ctx.font = "30px Comic Sans MS";
     this.ctx.fillStyle = "black";
     this.ctx.textAlign = "center";
-    this.ctx.fillText("GUMBY TRAMPOLINE", this.ctx.canvas.width / 2, this.ctx.canvas.width / 4);
+    this.ctx.fillText("GUMBY TRAMPOLINE", this.ctx.canvas.width / 2, 30 + 50);
     this.ctx.closePath();
   
     //Render Game title
     this.ctx.beginPath();
     this.ctx.font = "30px Comic Sans MS";
-    this.ctx.fillStyle = "blue";
+    this.ctx.fillStyle = "black";
     this.ctx.textAlign = "left";
-    this.ctx.fillText("# Charles' Heads Destroyed: " + this.kill_count, 10, 50);
-    this.ctx.fillText("# Charles' Heads That Attacked You: " + this.death_count, 10, 100);
-    this.ctx.fillText("# Charles' Heads That You Missed: " + this.missed_count, 10, 150);
+    let pointsText = "Points: "
+    this.ctx.fillText(pointsText, 10, 50);
+    this.ctx.fillStyle = "blue";
+    this.ctx.fillText("" + this.kill_count, 10 + this.ctx.measureText(pointsText).width, 50);
+    // this.ctx.fillText("# Charles' Heads That Attacked You: " + this.death_count, 10, 100);
+    // this.ctx.fillText("# Charles' Heads That You Missed: " + this.missed_count, 10, 150);
     this.ctx.closePath();
   
     //render player and charles-heads
@@ -173,6 +197,7 @@ export class GumbyComponent implements OnInit, OnDestroy {
         //delete from buffer
         this.charles_buffer.splice(i, 1);
         this.missed_count = this.missed_count + 1;
+        this.kill_count--;
       }
       //draw remaining charles-heads
       this.charles_buffer[i].draw();
@@ -181,7 +206,7 @@ export class GumbyComponent implements OnInit, OnDestroy {
   
   spawnCharlesRandomly() {
     if (Math.random() > .5) {
-      this.charles_buffer.push(new CharlesHead(this.ctx, this.canvas, this.charlesImg, this.charlesW, this.DT));
+      this.charles_buffer.push(new CharlesHead(this.ctx, this.canvas, this.charlesImg, this.charlesW, this.charlesH, this.DT));
     }
   }
   
@@ -198,6 +223,7 @@ export class GumbyComponent implements OnInit, OnDestroy {
             this.kill_count = this.kill_count + 1;
           } else {
             this.death_count = this.death_count + 1;
+            this.kill_count--;
           }
   
       }
@@ -235,10 +261,10 @@ class Player implements PlayerInterface{
 
   can_double_jump: boolean = false;
   player_mass: number = .5;
-  player_move_force: number = 600;
+  player_move_force: number = 700;
   player_friction: number = .5;
   air_friction: number = .2;
-  player_jump: number = 500;
+  player_jump: number = 600;
   gravity: number = 500;
   DT: number;
 
@@ -332,6 +358,8 @@ class Player implements PlayerInterface{
 class CharlesHead implements CharlesHeadInterface{
   ctx: CanvasRenderingContext2D;
   charlesImg: CanvasImageSource = new Image();
+  charles_w: number;
+  charles_h:number;
 
   max_charles_speed: number = 300;
   min_charles_speed: number = 150;
@@ -344,13 +372,15 @@ class CharlesHead implements CharlesHeadInterface{
   canvasW: number;
   canvasH: number;
   
-	constructor(ctx: CanvasRenderingContext2D, canvas: ElementRef<HTMLCanvasElement>, img: CanvasImageSource, charles_r: number, DT: number) {
+	constructor(ctx: CanvasRenderingContext2D, canvas: ElementRef<HTMLCanvasElement>, img: CanvasImageSource, charles_w: number, charles_h: number, DT: number) {
     this.ctx = ctx;
     this.charlesImg = img;
-    this.radius = charles_r;
+    this.radius = Math.min(charles_w, charles_h);
+    this.charles_w = charles_w;
+    this.charles_h = charles_h;
     this.canvasW = canvas.nativeElement.width;
     this.canvasH = canvas.nativeElement.height;
-		this.y = this.canvasH - this.radius;
+		this.y = this.canvasH - this.charles_h;
 		this.x =0;
     this.vx = 0;
     this.DT = DT;
@@ -366,7 +396,7 @@ class CharlesHead implements CharlesHeadInterface{
 
 	draw() {
 	  this.ctx.beginPath();
-		this.ctx.drawImage(this.charlesImg, this.x, this.y, this.radius, this.radius);
+		this.ctx.drawImage(this.charlesImg, this.x, this.y, this.charles_w, this.charles_h);
 	  this.ctx.closePath();
 	}
 

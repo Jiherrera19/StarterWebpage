@@ -20,7 +20,7 @@ class Header extends _react.default.Component {
     const headerStyle = {
       backgroundImage: `url(${_pepe.default})`,
       backgroundPosition: "bottom center",
-      height: 200,
+      height: 100,
       textAlign: "center",
       paddingTop: 10,
       fontFamily: `'Titillium Web', sans-serif`
@@ -33,7 +33,7 @@ class Header extends _react.default.Component {
       fluid: true
     }, /*#__PURE__*/_react.default.createElement(_Container.default, {
       fluid: true
-    }, /*#__PURE__*/_react.default.createElement("h1", null, "Meme Generator"))));
+    })));
   }
 
 }
