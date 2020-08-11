@@ -48,7 +48,12 @@ export class CourseInfoComponent implements OnInit, OnDestroy {
         }
       });
     });
-    return groupLabels;
+    if (groupLabels[0]) {
+      return groupLabels;
+    } else {
+      return '';
+    }
+    
   }
 
   handleSelectMajor(num: string) {

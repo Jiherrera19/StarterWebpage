@@ -29,11 +29,16 @@ class MemeGenerator extends _react.default.Component {
   componentDidMount() {
     const apiUrl = "https://api.imgflip.com/get_memes";
     fetch(apiUrl).then(response => response.json()).then(response => {
-      this.setState({
-        allMemeImgs: response.data.memes
+      let memes = response.data.memes;
+      memes = memes.filter(meme => {
+        return meme["box_count"] <= 2;
       });
-      let url = response.data.memes[Math.floor(Math.random() * response.data.memes.length)].url;
-      this.setRandomImg(url);
+      this.setState({
+        allMemeImgs: memes
+      });
+
+      let meme = memes[Math.floor(Math.random() * memes.length)];
+      this.setRandomImg(meme.url);
     });
   }
 

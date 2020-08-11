@@ -90,7 +90,7 @@ export class SubjectListComponent implements OnInit {
         }
       });
       if (!canContinue) { return false }
-      return (course.number + course.name).includes(filter);
+      return (course.number + course.name).trim().toLocaleLowerCase().includes(filter);
     };
   }
 
