@@ -12,7 +12,7 @@ export class AppComponent implements AfterViewInit{
   navbar: ElementRef<HTMLCanvasElement>;
 
   navbarHeight: number;
-  isNavCollapsed: boolean = false;
+  isNavCollapsed: boolean = true;
 
   ngAfterViewInit() {
     this.navbarHeight = this.navbar.nativeElement.offsetHeight

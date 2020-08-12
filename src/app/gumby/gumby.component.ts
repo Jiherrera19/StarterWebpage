@@ -159,7 +159,7 @@ export class GumbyComponent implements OnInit, OnDestroy {
     this.ctx.closePath();
 
     //Render Keyboard image
-    if (!this.someKeyPressed) {
+    if (!this.someKeyPressed && this.keysImg) {
       this.ctx.beginPath();
       this.ctx.drawImage(this.keysImg, this.ctx.canvas.width - this.keysW, 0, this.keysW, this.keysH);
       this.ctx.closePath();

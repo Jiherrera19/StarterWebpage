@@ -68,8 +68,8 @@ export class GroupStatsComponent implements OnInit, OnDestroy {
         trigger: 'item',
         showDelay: 0,
         transitionDuration: 0,
-        formatter: function (params) {
-          return `<b>${params['name']}</b> : ${params['value']}`;
+        formatter: (params) => {
+          return `<b>${params['name']}</b> : ${this.getCompletionFraction(params['name'])}`;
         }
       },
       title: {
@@ -126,5 +126,15 @@ export class GroupStatsComponent implements OnInit, OnDestroy {
 
   onChartFinished() {
     this.coursesService.constraintFinishedRenderingSubject.next();
+  }
+
+  getCompletionFraction(groupName) {
+    let ret = '???';
+    this.mainGroups.forEach((group) => {
+      if (group.label === groupName) {
+        ret = group.completion[0] + ' / ' + group.completion[1];
+      }
+    });
+    return ret;
   }
 }

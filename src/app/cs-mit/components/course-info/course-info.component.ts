@@ -10,9 +10,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./course-info.component.css']
 })
 export class CourseInfoComponent implements OnInit, OnDestroy {
-  course: Course
+  @Input() course: Course
   courseSubscription: Subscription;
   participationDataToDisplay: string;
+  disregardName: boolean = false;
   
   @Input() mainGroups: Array<Group>;
   @Input() constraintGroups: Array<Group>;
@@ -24,6 +25,9 @@ export class CourseInfoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (this.course) {
+      this.disregardName = true;
+    }
     this.courseSubscription = this.coursesService.courseInfoSubject.subscribe((course) => {
       this.course = course;
       this.participationDataToDisplay = "";
@@ -49,7 +53,7 @@ export class CourseInfoComponent implements OnInit, OnDestroy {
       });
     });
     if (groupLabels[0]) {
-      return groupLabels;
+      return this.printArrayNice(groupLabels);
     } else {
       return '';
     }
@@ -61,36 +65,41 @@ export class CourseInfoComponent implements OnInit, OnDestroy {
     this.participationDataToDisplay = `Frosh: ${data[1] || 0} | Sophomores: ${data[2] || 0} | Juniors: ${data[3] || 0} | Seniors: ${data[4] || 0}`;
   }
 
+  printArrayNice(arr) {
+    let ret = '';
+    arr.forEach((element, index) => {
+      if (index === arr.length - 1) {
+        ret += element;
+        return;
+      }
+      ret+= element + ' | '
+    });
+    return ret;
+  }
+
   partDataToDisplay() {
     return Object.keys(this.course.participation).length > 0;
   }
 
   courseAttributes() {
-    let ret = ''
-    this.course.attributes.forEach(attr => {
+    let tempArr = this.course.attributes.map(attr => {
       switch(attr) {
         case 'under':
-          ret += 'Undergraduate | ';
-          break;
+          return 'Undergraduate';
         case 'grad':
-          ret += 'Graduate | ';
-          break;
+          return 'Graduate';
         case 'nooffer':
-          ret+= 'Not Offered 2020-21 | ';
-          break;
+          return 'Not Offered 2020-21';
         case 'fall':
-          ret += 'Fall | ';
-          break;
+          return 'Fall';
         case 'spring':
-          ret+= 'Spring | ';
-          break;
+          return 'Spring';
         case 'iap':
-          ret+= 'IAP | ';
-          break;
+          return 'IAP';
         default:
-          break;
+          return '';
       }
     });
-    return ret.match(/^(.+)\| $/)[1];
+    return this.printArrayNice(tempArr);
   }
 }

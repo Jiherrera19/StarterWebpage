@@ -11,6 +11,9 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { ConstraintStatsComponent } from './components/constraint-stats/constraint-stats.component';
 import { CourseInfoComponent } from './components/course-info/course-info.component';
 import { SubjectListFiltersComponent } from './components/subject-list/subject-list.component';
+import { SubjectListComponentMobile } from './components/subject-list/subject-list.component.mobile';
+import { CsMitComponentMobile } from './cs-mit.component.mobile';
+import { DesktopGuard, MobileGuard } from './cs-mit.component.guard';
 
 
 @NgModule({
@@ -20,7 +23,9 @@ import { SubjectListFiltersComponent } from './components/subject-list/subject-l
     GroupStatsComponent,
     ConstraintStatsComponent,
     CourseInfoComponent,
-    SubjectListFiltersComponent
+    SubjectListFiltersComponent,
+    SubjectListComponentMobile,
+    CsMitComponentMobile
   ],
   imports: [
     CsMitRoutingModule,
@@ -30,6 +35,10 @@ import { SubjectListFiltersComponent } from './components/subject-list/subject-l
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     })
+  ],
+  providers: [
+    DesktopGuard,
+    MobileGuard
   ]
 })
 export class CsMitModule { }

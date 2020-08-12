@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Inject, OnDestroy, ɵɵupdateSyntheticHostBinding } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Course } from 'src/app/cs-mit/lib/service/courses/courses.model';
 import { CoursesService } from '../../lib/service/courses/courses.service';
@@ -8,6 +8,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { FilterAttributes } from './subject-list.model';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { Subscription } from 'rxjs';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-subject-list',
@@ -21,9 +22,12 @@ import { Subscription } from 'rxjs';
     ]),
   ]
 })
-export class SubjectListComponent implements OnInit {
+export class SubjectListComponent implements OnInit, OnDestroy {
   @Input() dataSource;
+  @Input() mainGroups;
+  @Input() constraintGroups;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constraintChartSubscription: Subscription;
   groupStatsChartSubscription: Subscription;
@@ -50,6 +54,10 @@ export class SubjectListComponent implements OnInit {
 
   constructor(private coursesService: CoursesService, private _bottomSheet: MatBottomSheet) {
   }
+  ngOnDestroy(): void {
+    this.constraintChartSubscription.unsubscribe();
+    this.groupStatsChartSubscription.unsubscribe();
+  }
 
   ngOnInit(): void {
     let cachedData = localStorage.getItem('PICKED_COURSES');
@@ -75,6 +83,28 @@ export class SubjectListComponent implements OnInit {
 
     this.classesToDisplay = new MatTableDataSource(this.dataSource);
     this.classesToDisplay.paginator = this.paginator;
+    this.classesToDisplay.sort = this.sort;
+    this.classesToDisplay.sortData = (data, sort) => {
+      if (this.searchQuery || this.classesToDisplay.filter === ":show_mine") {
+        return data;
+      }
+      let pickedCourses = this.getPickedCourses();
+      let otherSortedData = this.dataSource.filter((course) => {
+        return !pickedCourses.includes(course);
+      })
+      otherSortedData = Object.keys(otherSortedData).map(key => otherSortedData[key]).sort((a: Course, b: Course) => {
+        let aName = a.name;
+        let bName = b.name;
+        if (aName < bName) {
+          return -1;
+        }
+        if (aName === bName) {
+          return 0;
+        }
+        return 1;
+      });
+      return pickedCourses.concat(otherSortedData);
+    }
     this.classesToDisplay.filterPredicate = (course, filter) => {
       if (filter === ":show_mine") {
         return this.manageListIcon[course.number] === "remove";
@@ -159,7 +189,7 @@ export class SubjectListComponent implements OnInit {
     if (this.onlyShowPicked) {
       this.classesToDisplay.filter = ":show_mine";
     } else {
-      this.classesToDisplay.filter = "";
+      this.classesToDisplay.filter = this.searchQuery;
     }
   }
 
@@ -175,6 +205,11 @@ export class SubjectListComponent implements OnInit {
     localStorage.removeItem('PICKED_COURSES');
     this.manageListIcon = {};
     this.coursesService.pickedCoursesSubject.next(this.getPickedCourses());
+  }
+
+  clearSearch() {
+    this.searchQuery = "";
+    this.handleSeachQuery("");
   }
 }
 

@@ -22,12 +22,17 @@ export class CsMitComponent implements OnInit, OnDestroy {
   courseInfoElementPosition: any;
 
   constraintChartRenderedSubscription: Subscription;
-  constraintChartRenderedOnce: boolean = false;
 
   @ViewChild('courseInfo', { read: ElementRef }) courseInfoElement: ElementRef;
   @HostListener('window:scroll', ['$event'])
     handleScroll(){
         const windowScroll = window.pageYOffset;
+        if (!this.courseInfoElement) {
+          return;
+        }
+        if (!this.courseInfoElementPosition) {
+          this.courseInfoElementPosition = this.offset(this.courseInfoElement.nativeElement).top;
+        }
         if(windowScroll >= this.courseInfoElementPosition){
             this.courseInfoSticky = true;
         } else {
@@ -47,9 +52,10 @@ export class CsMitComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.constraintChartRenderedSubscription = this.coursesService.constraintFinishedRenderingSubject.subscribe(() => {
-      if (!this.constraintChartRenderedOnce) {
-        this.constraintChartRenderedOnce = true;
-        this.courseInfoElementPosition = this.offset(this.courseInfoElement.nativeElement).top;
+      if (!this.courseInfoSticky) {
+        if (this.courseInfoElement) {
+          this.courseInfoElementPosition = this.offset(this.courseInfoElement.nativeElement).top;
+        }
       }
     });
     this.coursesSubscription = this.coursesService.getScrapedInfo().subscribe((data: ScrapedInfo) => {
@@ -61,5 +67,6 @@ export class CsMitComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.coursesSubscription.unsubscribe();
+    this.constraintChartRenderedSubscription.unsubscribe();
   }
 }

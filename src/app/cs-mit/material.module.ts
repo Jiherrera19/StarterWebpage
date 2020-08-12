@@ -13,6 +13,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonToggleModule,
     MatPaginatorModule,
     MatBottomSheetModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSortModule
   ],
   exports: [
     MatTableModule,
@@ -43,7 +45,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonToggleModule,
     MatPaginatorModule,
     MatBottomSheetModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSortModule
   ]
 })
 export class MaterialModule {}

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Group } from '../../cs-mit.model';
 import { Course } from '../../lib/service/courses/courses.model';
 import { CoursesService } from '../../lib/service/courses/courses.service';
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './constraint-stats.component.html',
   styleUrls: ['./constraint-stats.component.css']
 })
-export class ConstraintStatsComponent implements OnInit {
+export class ConstraintStatsComponent implements OnInit, OnDestroy {
   @Input() courses: Array<Course>;
   @Input() constraintGroups: Array<Group>;
   options: any;
@@ -21,6 +21,9 @@ export class ConstraintStatsComponent implements OnInit {
     this.updateGraphSubscription = this.coursesService.pickedCoursesSubject.subscribe((courses) => {
       this.updateGraph(courses);
     });
+  }
+  ngOnDestroy(): void {
+    this.updateGraphSubscription.unsubscribe();
   }
 
   ngOnInit(): void {

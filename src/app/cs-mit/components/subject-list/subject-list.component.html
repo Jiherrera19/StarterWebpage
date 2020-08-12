@@ -1,16 +1,19 @@
 <div class="table-wrapper">
+<div>
   <table mat-table
        [dataSource]="classesToDisplay"
        multiTemplateDataRows
-       style="background-color: whitesmoke;">
+       style="background-color: whitesmoke; table-layout: fixed;"
+       matSort>
   <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
     <th mat-header-cell *matHeaderCellDef>
       <div class="search-box">
         <input matInput type="text" [(ngModel)]="searchQuery" (input)="handleSeachQuery($event.target.value)" class="input-box" placeholder="Search For Classes">
         <button mat-icon-button
           class="search-button icon"
-          [ngClass]="{'show-search-button': searchQuery}">
-          <mat-icon>search</mat-icon>
+          [ngClass]="{'show-search-button': searchQuery}"
+          (click)="clearSearch()">
+          <mat-icon>clear</mat-icon>
         </button>
       </div>
       <span style="display: flex; justify-content: space-evenly; padding-top: 5px;">
@@ -70,4 +73,5 @@
   <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 </table>
 <mat-paginator class="paginator" [pageSizeOptions]="[8 , 16 , 32 , 64, 128]"></mat-paginator>
+</div>
 </div>
